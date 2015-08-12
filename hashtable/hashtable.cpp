@@ -3,6 +3,7 @@
 #include<climits>
 #include<iostream>
 
+// Entry node of chain
 struct Entry {
   std::string key;
   std::string value;
@@ -43,7 +44,6 @@ class HashTable {
     int index = hash(key);
     std::cout << key << " index is " << index << std::endl;
     
-    // try to find key and move cur ptr to end of chain
     Entry *cur = table[index];
     if (cur == NULL) {
       Entry *ptr = new Entry(key, value);
@@ -51,15 +51,16 @@ class HashTable {
       table[index] = ptr;
     }
 
+    // try to find key and move cur ptr to end of chain
     while (cur != NULL && cur->key != key) {
       cur = cur->next;
     }
 
     if (cur != NULL) {
-      // find it
+      // find key in HashTable
       cur->value = value;
     } else {
-      // can not find it, then insert it to the end of chain
+      // can not find it, then insert key to head of chain
       Entry *ptr = new Entry(key, value);
       ptr->next = table[index]->next;
       table[index]->next = ptr;
